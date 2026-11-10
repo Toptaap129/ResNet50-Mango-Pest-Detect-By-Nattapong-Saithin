@@ -1,0 +1,14 @@
+--extra-index-url https://download.pytorch.org/whl/cu118
+torch
+torchvision
+torchaudio
+numpy
+matplotlib
+seaborn
+scikit-learn
+pillow
+pandas
+tqdm
+psutil
+flask
+flask-cors

@@ -1,0 +1,13 @@
+Alternaria-Fruit
+Anthracnose-Fruit
+Anthracnose-leaf
+Bacterial Canker-leaf
+Black Mould Rot-Fruit
+Cutting Weevil-leaf
+Die Back-leaf
+Gall Midge-leaf
+Healthy-Fruit
+Healthy-leaf
+Powdery Mildew-leaf
+Sooty Mould-leaf
+Stem end Rot-Fruit
