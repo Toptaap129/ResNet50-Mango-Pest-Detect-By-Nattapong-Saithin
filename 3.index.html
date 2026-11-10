@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Based Web Analysis of Mango Leaves and Fruits</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: 'Sarabun', sans-serif;
+font-size: 16px;
+line-height: 1.6;
+color: #1a3d2f;
+min-height: 100vh;
+position: relative;
+overflow-x: hidden;
+background-color: #f0f7f0;
+}
+/* Background Elements */
+.background-layer {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
+}
+.gradient-bg {
+background: url('https://images.unsplash.com/photo-1514944982689-6e1e6d7ffd9f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+position: relative;
+overflow: hidden;
+}
+/* Animated Gradient Overlay */
+.gradient-bg::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: linear-gradient(135deg, rgba(230, 250, 230, 0.3) 0%, rgba(180, 230, 200, 0.2) 100%);
+animation: gradientShift 15s ease infinite;
+background-size: 200% 200%;
+}
+@keyframes gradientShift {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+/* Floating Elements */
+.floating {
+position: absolute;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 50%;
+filter: blur(40px);
+animation: float 20s ease-in-out infinite;
+}
+.float-1 {
+width: 300px;
+height: 300px;
+top: 10%;
+left: 10%;
+animation-delay: 0s;
+background: rgba(200, 240, 210, 0.3);
+}
+.float-2 {
+width: 400px;
+height: 400px;
+bottom: 10%;
+right: 10%;
+animation-delay: 5s;
+animation-duration: 25s;
+background: rgba(170, 220, 180, 0.25);
+}
+@keyframes float {
+0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+25% { transform: translateY(-20px) translateX(10px) rotate(2deg); }
+50% { transform: translateY(10px) translateX(-15px) rotate(-2deg); }
+75% { transform: translateY(-15px) translateX(-5px) rotate(1deg); }
+}
+.pattern-bg {
+opacity: 0.08;
+z-index: 2;
+}
+.image-bg {
+opacity: 0.15;
+z-index: 3;
+}
+.image-bg img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.decorative-bg {
+z-index: 4;
+pointer-events: none;
+}
+/* Content Layer */
+.content-layer {
+position: relative;
+z-index: 10;
+}
+/* Background Patterns */
+.pattern-element {
+position: absolute;
+}
+.pattern-element.leaf-1 {
+top: 2.5rem;
+left: 2.5rem;
+width: 8rem;
+height: 8rem;
+transform: rotate(12deg);
+}
+.pattern-element.leaf-2 {
+top: 5rem;
+right: 5rem;
+width: 6rem;
+height: 6rem;
+transform: rotate(-12deg);
+}
+.pattern-element.leaf-3 {
+bottom: 5rem;
+left: 25%;
+width: 7rem;
+height: 7rem;
+transform: rotate(45deg);
+}
+.pattern-element.leaf-4 {
+bottom: 8rem;
+right: 33%;
+width: 5rem;
+height: 5rem;
+transform: rotate(-30deg);
+}
+.pattern-element.leaf-5 {
+top: 33%;
+left: 50%;
+width: 4rem;
+height: 4rem;
+transform: rotate(60deg);
+}
+/* Decorative Elements */
+.decorative-corner-tl {
+position: absolute;
+top: 1rem;
+left: 1rem;
+opacity: 0.25;
+}
+.decorative-corner-tr {
+position: absolute;
+top: 2rem;
+right: 2rem;
+opacity: 0.2;
+transform: rotate(45deg);
+}
+.decorative-bottom {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+opacity: 0.25;
+}
+/* Navigation */
+nav {
+background: rgba(5, 150, 105, 0.95);
+color: white;
+padding: 1.5rem;
+margin: 1.5rem;
+border-radius: 2rem;
+box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+border: 1px solid rgba(5, 150, 105, 0.3);
+position: relative;
+overflow: hidden;
+}
+.nav-content {
+max-width: 1024px;
+margin: 0 auto;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: space-between;
+position: relative;
+z-index: 2;
+}
+.nav-title {
+font-size: 1.25rem;
+font-weight: 500;
+background: linear-gradient(to right, #ffffff, #d1fae5);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+.nav-buttons {
+display: flex;
+gap: 1rem;
+margin-top: 0.5rem;
+}
+.nav-button {
+background: rgba(255, 255, 255, 0.15);
+border: 1px solid rgba(255, 255, 255, 0.3);
+color: white;
+padding: 0.5rem 1rem;
+border-radius: 0.75rem;
+cursor: pointer;
+transition: all 0.3s;
+}
+.nav-button:hover {
+background: rgba(4, 120, 87, 0.8);
+}
+/* Container */
+.container {
+max-width: 1024px;
+margin: 0 auto;
+padding: 1rem;
+display: flex;
+flex-direction: column;
+gap: 2rem;
+}
+/* Cards */
+.card {
+background: rgba(255, 255, 255, 0.55);
+border-radius: 1.5rem;
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+border: 1px solid rgba(255, 255, 255, 0.5);
+overflow: hidden;
+transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+}
+.card:hover {
+transform: translateY(-5px) scale(1.01);
+box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.25);
+background: rgba(255, 255, 255, 0.65);
+}
+.card-header {
+padding: 2rem;
+text-align: center;
+background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+}
+.card-title {
+font-size: 1.875rem;
+font-weight: bold;
+background: linear-gradient(to right, #047857, #059669, #2563eb);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 0.75rem;
+margin-bottom: 1rem;
+}
+.card-title-underline {
+width: 4rem;
+height: 0.25rem;
+background: linear-gradient(to right, #059669, #34d399);
+border-radius: 9999px;
+margin: 0 auto;
+}
+.card-content {
+padding: 1.5rem;
+}
+/* Buttons */
+.btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 0.75rem;
+padding: 1rem 2.5rem;
+border-radius: 2rem;
+border: none;
+cursor: pointer;
+font-size: 1.125rem;
+font-weight: 500;
+transition: all 0.3s;
+text-decoration: none;
+box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+border: 0;
+}
+.btn:hover:not(:disabled) {
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+transform: translateY(-1px) scale(1.05);
+}
+.btn-primary {
+background: linear-gradient(to right, #059669, #10b981);
+color: white;
+}
+.btn-primary:hover:not(:disabled) {
+background: linear-gradient(to right, #047857, #059669);
+}
+.btn-secondary {
+background: linear-gradient(to right, #2563eb, #7c3aed);
+color: white;
+}
+.btn-secondary:hover:not(:disabled) {
+background: linear-gradient(to right, #1d4ed8, #6d28d9);
+}
+.btn:disabled {
+opacity: 0.6;
+cursor: not-allowed;
+transform: none;
+}
+/* Form elements */
+.file-input {
+display: none;
+}
+.upload-area {
+text-align: center;
+margin: 1.5rem 0;
+}
+.image-preview {
+display: flex;
+justify-content: center;
+margin: 1.5rem 0;
+}
+.preview-container {
+border: 2px dashed rgba(134, 239, 172, 0.8);
+border-radius: 2rem;
+padding: 1.5rem;
+background: rgba(255, 255, 255, 0.5);
+transition: all 0.3s;
+}
+.preview-container:hover {
+border-color: #34d399;
+transform: scale(1.02);
+}
+.preview-image {
+max-width: 384px;
+max-height: 320px;
+object-fit: contain;
+border-radius: 2rem;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+border: 2px solid rgba(255, 255, 255, 0.6);
+}
+/* Alert */
+.alert {
+padding: 1rem;
+border-radius: 0.75rem;
+margin: 1rem 0;
+border: 1px solid #fed7aa;
+background: rgba(255, 247, 237, 0.95);
+color: #c2410c;
+}
+.alert.success {
+border-color: #bbf7d0;
+background: rgba(220, 252, 231, 0.95);
+color: #065f46;
+}
+/* Results */
+.result-container {
+background: rgba(255, 255, 255, 0.85);
+border: 1px solid rgba(229, 231, 235, 0.5);
+border-radius: 2rem;
+padding: 2rem;
+margin: 1rem 0;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+position: relative;
+overflow: hidden;
+}
+.result-container::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 0.25rem;
+background: linear-gradient(to right, #059669, #34d399, #2563eb);
+border-radius: 2rem 2rem 0 0;
+}
+.result-title {
+font-size: 1.5rem;
+font-weight: 600;
+background: linear-gradient(to right, #059669, #10b981);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+margin-bottom: 1.5rem;
+}
+.disease-info {
+margin-bottom: 2rem;
+padding: 1.5rem;
+background: rgba(240, 253, 244, 0.9);
+border-radius: 1.5rem;
+border-left: 4px solid #10b981;
+}
+.disease-name {
+font-size: 1.75rem;
+font-weight: 700;
+color: #047857;
+margin-bottom: 0.5rem;
+}
+.confidence-badge {
+display: inline-block;
+padding: 0.5rem 1rem;
+background: linear-gradient(to right, #059669, #10b981);
+color: white;
+border-radius: 2rem;
+font-size: 0.9rem;
+font-weight: 500;
+margin-top: 0.5rem;
+}
+.treatment-title {
+font-size: 1.25rem;
+font-weight: 500;
+margin-bottom: 1rem;
+color: #065f46;
+}
+.treatment-list {
+list-style: none;
+}
+.treatment-item {
+display: flex;
+align-items: flex-start;
+gap: 0.75rem;
+margin-bottom: 0.75rem;
+font-size: 1.125rem;
+padding: 0.75rem;
+background: rgba(255, 255, 255, 0.7);
+border-radius: 1rem;
+border-left: 3px solid #34d399;
+}
+.treatment-bullet {
+color: #059669;
+margin-top: 0.25rem;
+font-size: 1.125rem;
+font-weight: bold;
+}
+.empty-state {
+text-align: center;
+color: #6b7280;
+padding: 3rem;
+background: rgba(255, 255, 255, 0.7);
+border-radius: 2rem;
+}
+.leaf-icon {
+width: 5rem;
+height: 5rem;
+color: #d1d5db;
+margin: 0 auto 1.5rem;
+}
+/* Additional info grid */
+.info-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 1.5rem;
+margin-top: 1.5rem;
+}
+@media (min-width: 768px) {
+.info-grid {
+grid-template-columns: 1fr 1fr;
+}
+.nav-buttons {
+margin-top: 0;
+}
+}
+.info-card {
+background: rgba(240, 253, 244, 0.9);
+padding: 1.5rem;
+border-radius: 2rem;
+border: 1px solid rgba(5, 150, 105, 0.2);
+transition: all 0.3s;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.info-card:hover {
+transform: scale(1.05);
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.info-card h4 {
+color: #047857;
+font-weight: 500;
+margin-bottom: 0.75rem;
+font-size: 1.125rem;
+}
+.info-card p {
+color: #4b5563;
+}
+/* Footer */
+footer {
+background: rgba(5, 150, 105, 0.95);
+color: white;
+text-align: center;
+padding: 1.5rem;
+margin: 3rem 1.5rem 1.5rem;
+border-radius: 2rem;
+border: 1px solid rgba(5, 150, 105, 0.3);
+position: relative;
+overflow: hidden;
+}
+footer::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 100%;
+background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
+animation: shimmer 3s ease-in-out infinite;
+}
+footer p {
+font-size: 1.125rem;
+font-weight: 500;
+position: relative;
+z-index: 10;
+}
+@keyframes shimmer {
+0%, 100% { transform: translateX(-100%); }
+50% { transform: translateX(100%); }
+}
+/* Loading spinner */
+.spinner {
+width: 1.5rem;
+height: 1.5rem;
+border: 2px solid transparent;
+border-top: 2px solid currentColor;
+border-radius: 50%;
+animation: spin 1s linear infinite;
+}
+@keyframes spin {
+to {
+transform: rotate(360deg);
+}
+}
+/* Smooth scrolling */
+html {
+scroll-behavior: smooth;
+}
+/* Icons */
+.icon {
+width: 1.5rem;
+height: 1.5rem;
+display: inline-block;
+}
+.icon-lg {
+width: 2.5rem;
+height: 2.5rem;
+}
+/* SVG Fills */
+.fill-green-600 { fill: #059669; }
+.fill-green-500 { fill: #10b981; }
+.fill-green-400 { fill: #34d399; }
+.fill-emerald-600 { fill: #059669; }
+.fill-emerald-500 { fill: #10b981; }
+.fill-emerald-400 { fill: #34d399; }
+.fill-emerald-300 { fill: #6ee7b7; }
+.fill-teal-500 { fill: #14b8a6; }
+/* Disease Classification Badge */
+.classification-badge {
+display: inline-block;
+padding: 0.5rem 1rem;
+border-radius: 2rem;
+font-size: 0.9rem;
+font-weight: 500;
+margin-top: 0.5rem;
+}
+.classification-healthy {
+background: linear-gradient(to right, #10b981, #34d399);
+color: white;
+}
+.classification-disease {
+background: linear-gradient(to right, #ef4444, #f97316);
+color: white;
+}
+.classification-pest {
+background: linear-gradient(to right, #f97316, #fb923c);
+color: white;
+}
+/* Probability Chart */
+.probability-chart {
+margin-top: 2rem;
+padding: 1.5rem;
+background: rgba(255, 255, 255, 0.7);
+border-radius: 1.5rem;
+border: 1px solid rgba(229, 231, 235, 0.5);
+}
+.chart-title {
+font-size: 1.25rem;
+font-weight: 600;
+margin-bottom: 1rem;
+color: #047857;
+}
+.probability-bar {
+margin-bottom: 0.75rem;
+}
+.bar-label {
+display: flex;
+justify-content: space-between;
+margin-bottom: 0.25rem;
+font-size: 0.9rem;
+}
+.bar-container {
+height: 1rem;
+background: rgba(229, 231, 235, 0.5);
+border-radius: 9999px;
+overflow: hidden;
+}
+.bar-fill {
+height: 100%;
+background: linear-gradient(to right, #059669, #10b981);
+border-radius: 9999px;
+transition: width 0.3s ease;
+}
+/* Server Status */
+.server-status {
+text-align: center;
+padding: 1rem;
+margin: 1rem 0;
+border-radius: 0.75rem;
+font-size: 0.9rem;
+}
+.server-status.connected {
+background: rgba(220, 252, 231, 0.95);
+color: #065f46;
+border: 1px solid #bbf7d0;
+}
+.server-status.disconnected {
+background: rgba(254, 242, 242, 0.95);
+color: #dc2626;
+border: 1px solid #fecaca;
+}
+/* Responsive */
+@media (max-width: 768px) {
+.card-title {
+font-size: 1.5rem;
+}
+.preview-image {
+max-width: 100%;
+}
+.nav-buttons {
+flex-direction: column;
+gap: 0.5rem;
+}
+}
+</style>
+</head>
+<body>
+<!-- Background Layers -->
+<div class="background-layer gradient-bg">
+<div class="floating float-1"></div>
+<div class="floating float-2"></div>
+</div>
+<!-- Background Pattern -->
+<div class="background-layer pattern-bg">
+<div class="pattern-element leaf-1">
+<svg viewBox="0 0 100 100" class="w-full h-full fill-green-600">
+<path d="M20,50 Q30,20 50,30 Q70,20 80,50 Q70,80 50,70 Q30,80 20,50 Z"/>
+</svg>
+</div>
+<div class="pattern-element leaf-2">
+<svg viewBox="0 0 100 100" class="w-full h-full fill-green-500">
+<path d="M20,50 Q30,20 50,30 Q70,20 80,50 Q70,80 50,70 Q30,80 20,50 Z"/>
+</svg>
+</div>
+<div class="pattern-element leaf-3">
+<svg viewBox="0 0 100 100" class="w-full h-full fill-emerald-600">
+<path d="M20,50 Q30,20 50,30 Q70,20 80,50 Q70,80 50,70 Q30,80 20,50 Z"/>
+</svg>
+</div>
+<div class="pattern-element leaf-4">
+<svg viewBox="0 0 100 100" class="w-full h-full fill-green-400">
+<path d="M20,50 Q30,20 50,30 Q70,20 80,50 Q70,80 50,70 Q30,80 20,50 Z"/>
+</svg>
+</div>
+<div class="pattern-element leaf-5">
+<svg viewBox="0 0 100 100" class="w-full h-full fill-teal-500">
+<path d="M20,50 Q30,20 50,30 Q70,20 80,50 Q70,80 50,70 Q30,80 20,50 Z"/>
+</svg>
+</div>
+</div>
+<!-- Main Background Image -->
+<div class="background-layer image-bg">
+<img src="https://cdn.pixabay.com/photo/2014/05/15/03/02/mango-344502_1280.jpg" alt="Mango plantation background">
+</div>
+<!-- Decorative Elements -->
+<div class="background-layer decorative-bg">
+<!-- Top left corner decoration -->
+<div class="decorative-corner-tl">
+<svg width="120" height="120" viewBox="0 0 120 120" class="fill-green-600">
+<path d="M10,60 Q20,10 60,20 Q100,10 110,60 Q100,110 60,100 Q20,110 10,60 Z"/>
+<path d="M25,60 Q30,30 60,35 Q90,30 95,60 Q90,90 60,85 Q30,90 25,60 Z" class="fill-green-500"/>
+</svg>
+</div>
+<!-- Top right corner decoration -->
+<div class="decorative-corner-tr">
+<svg width="100" height="100" viewBox="0 0 100 100" class="fill-emerald-500">
+<circle cx="50" cy="50" r="40" />
+<circle cx="50" cy="50" r="25" class="fill-emerald-400"/>
+<circle cx="50" cy="50" r="10" class="fill-emerald-300"/>
+</svg>
+</div>
+<!-- Bottom decorative elements -->
+<div class="decorative-bottom">
+<svg width="100%" height="100" viewBox="0 0 1200 100" class="fill-green-600">
+<path d="M0,100 Q100,50 200,60 Q300,70 400,50 Q500,30 600,50 Q700,70 800,60 Q900,50 1000,70 Q1100,90 1200,80 L1200,100 Z"/>
+</svg>
+</div>
+</div>
+<!-- Content Layer -->
+<div class="content-layer">
+<!-- Navigation -->
+<nav>
+<div class="nav-content">
+<h1 class="nav-title">เลือกเมนูได้ตรงนี้ &gt;</h1>
+<div class="nav-buttons">
+<button class="nav-button" onclick="scrollToSection('upload')">
+<i class="fas fa-upload"></i> อัปโหลดรูปภาพ
+</button>
+<button class="nav-button" onclick="scrollToSection('result')">
+<i class="fas fa-chart-bar"></i> แสดงผล
+</button>
+<button class="nav-button" onclick="scrollToSection('more')">
+<i class="fas fa-book"></i> เพิ่มเติม
+</button>
+</div>
+</div>
+</nav>
+<!-- Server Status -->
+<div class="container">
+<div class="server-status" id="serverStatus">
+<i class="fas fa-spinner fa-spin"></i> กำลังเชื่อมต่อเซิร์ฟเวอร์...
+</div>
+</div>
+<div class="container">
+<!-- Upload Section -->
+<div class="card" id="upload">
+<div class="card-header">
+<h2 class="card-title">
+<i class="fas fa-leaf icon-lg"></i>
+AI-Based Web Analysis of Mango Leaves and Fruits
+</h2>
+<div class="card-title-underline"></div>
+</div>
+<div class="card-content">
+<div class="upload-area">
+<input type="file" id="fileInput" class="file-input" accept="image/*" onchange="handleImageSelect(event)">
+<button class="btn btn-primary" onclick="handleUploadClick()">
+<i class="fas fa-folder-open icon"></i>
+เลือกไฟล์ภาพ
+</button>
+</div>
+<!-- Image Preview -->
+<div class="image-preview" id="imagePreview" style="display: none;">
+<div class="preview-container">
+<img id="previewImage" class="preview-image" alt="Preview">
+</div>
+</div>
+<div class="upload-area">
+<button class="btn btn-secondary" id="analyzeBtn" onclick="analyzeImage()" disabled>
+<i class="fas fa-search icon"></i>
+วิเคราะห์ภาพ
+</button>
+</div>
+<!-- Error Alert -->
+<div class="alert" id="errorAlert" style="display: none;">
+<span id="errorMessage"></span>
+</div>
+</div>
+</div>
+<!-- Results Section -->
+<div class="card" id="result">
+<div class="card-header">
+<h2 class="card-title">
+<i class="fas fa-stethoscope icon-lg"></i>
+ผลการวิเคราะห์โรค
+</h2>
+<div class="card-title-underline"></div>
+</div>
+<div class="card-content">
+<div id="resultContent">
+<div class="empty-state">
+<i class="fas fa-leaf leaf-icon" style="font-size: 5rem;"></i>
+<p style="font-size: 1.25rem; margin-top: 1rem;">กรุณาอัปโหลดและวิเคราะห์ภาพเพื่อดูผลลัพธ์</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Additional Information Section -->
+<div class="card" id="more">
+<div class="card-header">
+<h2 class="card-title">
+<i class="fas fa-book-open icon-lg"></i>
+ข้อมูลเพิ่มเติม
+</h2>
+<div class="card-title-underline"></div>
+</div>
+<div class="card-content">
+<p style="color: #374151; font-size: 1.125rem; margin-bottom: 1.5rem;">
+รวมรายชื่อโรคและศัตรูพืชใบมะม่วงที่พบบ่อย พร้อมคำแนะนำการดูแลเบื้องต้น
+</p>
+<div class="info-grid">
+<div class="info-card">
+<h4><i class="fas fa-exclamation-triangle"></i> โรคใบจุดสีน้ำตาล (Anthracnose)</h4>
+<p>พบบ่อยในฤดูฝน ควรระวังการรดน้ำมากเกินไป และใช้สารป้องกันเชื้อรา</p>
+</div>
+<div class="info-card">
+<h4><i class="fas fa-bug"></i> แมลงหวี่ขาว (Whitefly)</h4>
+<p>ดูดกินน้ำเลี้ยงพืช ควรใช้กับดักสีเหลืองหรือสารชีวภัณฑ์ควบคุม</p>
+</div>
+<div class="info-card">
+<h4><i class="fas fa-seedling"></i> โรคใบแห้ง (Leaf Spot)</h4>
+<p>เกิดจากเชื้อรา ควรตัดใบที่เป็นโรคทิ้ง และปรับปรุงการระบายน้ำ</p>
+</div>
+<div class="info-card">
+<h4><i class="fas fa-tint"></i> โรคเน่าดำ (Black Mould Rot)</h4>
+<p>เกิดในช่วงความชื้นสูง ควรลดความชื้นและใช้สารป้องกันเชื้อรา</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<p><i class="fas fa-heart"></i> Dev. By T-A-N ❤️</p>
+</footer>
+</div>
+
+<script src="DataBase.js"></script>
+
+<script>
+// Global variables
+let selectedImage = null;
+let isLoading = false;
+let serverConnected = false;
+
+// DOM elements
+const fileInput = document.getElementById('fileInput');
+const imagePreview = document.getElementById('imagePreview');
+const previewImage = document.getElementById('previewImage');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const errorAlert = document.getElementById('errorAlert');
+const errorMessage = document.getElementById('errorMessage');
+const resultContent = document.getElementById('resultContent');
+const serverStatus = document.getElementById('serverStatus');
+// Check server connection
+async function checkServerConnection() {
+try {
+const response = await fetch('http://127.0.0.1:5000/health', {
+method: 'GET',
+mode: 'cors'
+});
+if (response.ok) {
+serverConnected = true;
+serverStatus.className = 'server-status connected';
+serverStatus.innerHTML = '<i class="fas fa-check-circle"></i> เชื่อมต่อเซิร์ฟเวอร์สำเร็จ | พร้อมวิเคราะห์ภาพ';
+} else {
+serverConnected = false;
+serverStatus.className = 'server-status disconnected';
+serverStatus.innerHTML = '<i class="fas fa-times-circle"></i> ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
+}
+} catch (error) {
+serverConnected = false;
+serverStatus.className = 'server-status disconnected';
+serverStatus.innerHTML = '<i class="fas fa-times-circle"></i> ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
+console.error('Server connection error:', error);
+}
+}
+// Event handlers
+function handleUploadClick() {
+fileInput.click();
+}
+function handleImageSelect(event) {
+const file = event.target.files[0];
+if (file) {
+// Validate file type
+const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+if (!validTypes.includes(file.type)) {
+showError('กรุณาเลือกไฟล์ภาพประเภท JPG, JPEG, PNG หรือ WebP เท่านั้น');
+fileInput.value = '';
+return;
+}
+// Validate file size (max 10MB)
+if (file.size > 10 * 1024 * 1024) {
+showError('ขนาดไฟล์ใหญ่เกินไป กรุณาเลือกไฟล์ที่มีขนาดไม่เกิน 10 MB');
+fileInput.value = '';
+return;
+}
+selectedImage = file;
+// Create preview URL
+const url = URL.createObjectURL(file);
+previewImage.src = url;
+imagePreview.style.display = 'flex';
+// Enable analyze button
+analyzeBtn.disabled = false;
+// Clear previous results and errors
+hideError();
+showEmptyState();
+}
+}
+async function analyzeImage() {
+if (!selectedImage) {
+showError('กรุณาเลือกภาพก่อนวิเคราะห์');
+return;
+}
+if (!serverConnected) {
+showError('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่อ');
+return;
+}
+setLoading(true);
+hideError();
+const formData = new FormData();
+formData.append('image', selectedImage); // ✅ ใช้ 'image' แทน 'file' ให้ตรงกับแบ็คเอนด์
+try {
+const response = await fetch('http://127.0.0.1:5000/predict', {
+method: 'POST',
+body: formData,
+mode: 'cors'
+});
+if (!response.ok) {
+throw new Error(`HTTP status ${response.status}`);
+}
+const data = await response.json();
+// ✅ แก้ไข: เปลี่ยนจาก data.top_prediction เป็น data.prediction
+// ✅ แก้ไข: เปลี่ยนจาก data.predictions เป็น data.all_probabilities
+if (data.success && data.prediction) {
+showResult(data.prediction, data.all_probabilities);
+} else {
+throw new Error('Invalid response format');
+}
+} catch (err) {
+console.error('Error:', err);
+showError('เกิดข้อผิดพลาดในการวิเคราะห์ภาพ: ' + err.message);
+} finally {
+setLoading(false);
+}
+}
+function setLoading(loading) {
+isLoading = loading;
+if (loading) {
+analyzeBtn.innerHTML = `
+<div class="spinner"></div>
+กำลังวิเคราะห์ภาพ...
+`;
+analyzeBtn.disabled = true;
+} else {
+analyzeBtn.innerHTML = `
+<i class="fas fa-search icon"></i>
+วิเคราะห์ภาพ
+`;
+analyzeBtn.disabled = !selectedImage;
+}
+}
+function showError(message) {
+errorMessage.textContent = message;
+errorAlert.style.display = 'block';
+errorAlert.className = 'alert';
+}
+function hideError() {
+errorAlert.style.display = 'none';
+}
+function showResult(topPrediction, allPredictions) {
+const className = topPrediction.class;
+const confidence = topPrediction.confidence;
+// Get treatment info
+const treatmentInfo = treatmentDatabase[className] || {
+classification: 'classification-disease',
+treatment: [
+'ไม่พบข้อมูลการรักษาสำหรับโรคนี้',
+'กรุณาปรึกษาผู้เชี่ยวชาญด้านพืชสวน'
+]
+};
+// Determine classification type
+let classificationText = 'โรคพืช';
+if (className.includes('Healthy')) {
+classificationText = 'สุขภาพดี';
+} else if (className.includes('Weevil') || className.includes('Midge')) {
+classificationText = 'ศัตรูพืช';
+}
+// Create probability chart for top predictions
+const topPredictions = allPredictions
+.filter(p => p.probability > 0.05)
+.sort((a, b) => b.probability - a.probability)
+.slice(0, 5);
+const chartHTML = topPredictions.map(pred => `
+<div class="probability-bar">
+<div class="bar-label">
+<span>${pred.class.replace(/-/g, ' ')}</span>
+<span>${(pred.probability * 100).toFixed(1)}%</span>
+</div>
+<div class="bar-container">
+<div class="bar-fill" style="width: ${(pred.probability * 100).toFixed(1)}%"></div>
+</div>
+</div>
+`).join('');
+resultContent.innerHTML = `
+<div class="result-container">
+<div class="disease-info">
+<div class="disease-name">
+${className.replace(/-/g, ' ')}
+</div>
+<div class="classification-badge ${treatmentInfo.classification}">
+<i class="fas fa-tag"></i> ${classificationText}
+</div>
+<div class="confidence-badge">
+<i class="fas fa-chart-line"></i> ความมั่นใจ: ${(confidence * 100).toFixed(2)}%
+</div>
+</div>
+<h4 class="treatment-title">
+<i class="fas fa-tools"></i> วิธีการรักษาและป้องกัน
+</h4>
+<ul class="treatment-list">
+${treatmentInfo.treatment.map(tip => `
+<li class="treatment-item">
+<span class="treatment-bullet">✓</span>
+<span>${tip}</span>
+</li>
+`).join('')}
+</ul>
+<div class="probability-chart">
+<h4 class="chart-title">
+<i class="fas fa-chart-bar"></i> ความน่าจะเป็นของผลลัพธ์ (Top 5)
+</h4>
+${chartHTML}
+</div>
+</div>
+`;
+}
+function showEmptyState() {
+resultContent.innerHTML = `
+<div class="empty-state">
+<i class="fas fa-leaf leaf-icon" style="font-size: 5rem;"></i>
+<p style="font-size: 1.25rem; margin-top: 1rem;">กรุณาอัปโหลดและวิเคราะห์ภาพเพื่อดูผลลัพธ์</p>
+</div>
+`;
+}
+function scrollToSection(sectionId) {
+const element = document.getElementById(sectionId);
+if (element) {
+element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+}
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+showEmptyState();
+checkServerConnection();
+// Check server connection every 30 seconds
+setInterval(checkServerConnection, 30000);
+});
+</script>
+</body>
+</html>
+
