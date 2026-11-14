@@ -3,6 +3,7 @@ torch
 torchvision
 torchaudio
 numpy
+cupy-cuda11x
 matplotlib
 seaborn
 scikit-learn
